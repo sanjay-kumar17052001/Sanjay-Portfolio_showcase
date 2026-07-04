@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782240735/Sk_logo_1_ofupdw.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mochiverse — Watch Now</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#facc15;
+  --gold-dim:#caa106;
+  --ink:#06060a;
+  --panel:#0d0d12;
+  --panel-edge:rgba(255,255,255,.08);
+  --muted:#9b9ba6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Plus Jakarta Sans",sans-serif;background:var(--ink);color:#fff;overflow-x:hidden}
+
+/* film-grain + ambient glow backdrop */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(250,204,21,.10) 0%,transparent 30%),
+    radial-gradient(circle at 0% 100%,rgba(122,42,255,.16) 0%,transparent 38%),
+    var(--ink);
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::-webkit-scrollbar{width:9px}
+::-webkit-scrollbar-track{background:var(--ink)}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:10px}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 6%;transition:.35s;
+  background:linear-gradient(to bottom,rgba(6,6,10,.85),transparent);
+}
+nav.scrolled{background:rgba(8,8,12,.78);backdrop-filter:blur(18px);border-bottom:1px solid var(--panel-edge);padding:14px 6%}
+.logo{font:800 24px Syne,sans-serif;letter-spacing:.5px}
+.logo span{color:var(--gold)}
+.navlinks a{color:#cfcfd6;text-decoration:none;margin-left:32px;font-size:14px;font-weight:600;letter-spacing:.3px;transition:.2s}
+.navlinks a:hover{color:var(--gold)}
+
+/* HERO */
+.hero{
+position:relative;
+height:100vh;
+min-height:760px;
+display:flex;
+align-items:center;
+padding:0 5%;
+}
+.hero-content{
+width:640px;
+max-width:640px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:flex-start;
+gap:0;
+z-index:5;
+padding-top:40px;
+}
+.hero-media{
+  position:absolute;inset:0;z-index:-1;
+  background:url('https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782812887/OTT_Welcom_Banner_x55hrs.png') center center/cover no-repeat;
+}
+.hero-media::after{
+  content:"";position:absolute;inset:0;
+  background:
+linear-gradient(
+to right,
+rgba(6,6,10,.92) 0%,
+rgba(6,6,10,.74) 28%,
+rgba(6,6,10,.40) 46%,
+rgba(6,6,10,.10) 68%,
+rgba(6,6,10,.55) 100%
+),
+linear-gradient(
+to top,
+rgba(6,6,10,.88) 0%,
+rgba(6,6,10,.15) 42%,
+rgba(6,6,10,.45) 100%
+);
+}
+
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:700;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:18px}
+.eyebrow::before{content:"";width:30px;height:2px;background:var(--gold)}
+.hero h1{
+font:800 clamp(56px,5vw,76px) Syne,sans-serif;
+line-height:.92;
+letter-spacing:-2px;
+max-width:560px;
+margin:18px 0 22px;
+}
+.hero h1 .accent{color:var(--gold);font-style:italic}
+.hero p{
+margin:10px 0 34px;
+max-width:540px;
+font-size:17px;
+line-height:1.75;
+color:#d8d8df;
+}
+.hero-meta{
+display:flex;
+gap:12px;
+flex-wrap:wrap;
+align-items:center;
+margin:6px 0 34px;
+}
+.hero-meta .badge{padding:4px 11px;border:1px solid var(--panel-edge);border-radius:6px;color:#eaeaea}
+.cta-row{
+display:flex;
+align-items:center;
+gap:18px;
+margin-top:8px;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:10px;
+  font-weight:700;font-size:15px;text-decoration:none;border:none;cursor:pointer;transition:.25s;
+}
+.btn-primary{background:var(--gold);color:#15110a;box-shadow:0 8px 30px rgba(250,204,21,.25)}
+.btn-primary:hover{background:#fff;transform:translateY(-2px)}
+.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid var(--panel-edge);backdrop-filter:blur(10px)}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+/* SECTIONS */
+.section{
+width:min(1450px,95%);
+margin:auto;
+padding:90px 0;
+}
+.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:38px;gap:20px}
+.kicker{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px}
+.title{font:800 clamp(30px,3.4vw,44px) Syne,sans-serif;letter-spacing:-.5px}
+.subtext{color:var(--muted);font-size:15px;max-width:380px;text-align:right}
+
+/* FEATURED */
+.featured{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  background:linear-gradient(180deg,#111116,#09090d);
+  border-radius:28px;
+  overflow:hidden;
+  border:1px solid rgba(250,204,21,.12);
+  box-shadow:0 30px 60px rgba(0,0,0,.45);
+  transition:all .45s ease;
+  cursor:pointer;
+}
+.featured-media{position:relative;min-height:460px}
+.featured-media img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+transition:transform .6s ease,filter .6s ease;
+}
+.featured:hover{
+transform:translateY(-10px) scale(1.01);
+border-color:var(--gold);
+box-shadow:
+0 0 40px rgba(250,204,21,.18),
+0 30px 70px rgba(0,0,0,.55);
+}
+
+.featured:hover .featured-media img{
+transform:scale(1.06);
+filter:brightness(1.08) saturate(1.1);
+}
+
+.featured::before{
+content:"";
+position:absolute;
+inset:0;
+pointer-events:none;
+border-radius:28px;
+transition:.4s;
+}
+
+.featured:hover::before{
+box-shadow:
+inset 0 0 0 1px rgba(250,204,21,.25),
+0 0 50px rgba(250,204,21,.15);
+}
+.featured-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,var(--panel) 100%)}
+.play-orb{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:78px;height:78px;border-radius:50%;background:rgba(250,204,21,.92);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;
+  box-shadow:0 0 0 0 rgba(250,204,21,.5);
+}
+.play-orb:hover{transform:translate(-50%,-50%) scale(1.1);box-shadow:0 0 0 14px rgba(250,204,21,.08)}
+.play-orb svg{width:24px;height:24px;fill:#15110a;margin-left:3px}
+.info{padding:56px 50px;display:flex;flex-direction:column;justify-content:center}
+.info .ep-tag{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.info h2{font:800 38px Syne,sans-serif;margin-bottom:14px;letter-spacing:-.5px}
+.info p{color:#c7c7d1;font-size:16px;line-height:1.7;margin-bottom:26px}
+.progress{height:4px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;margin-bottom:24px}
+.progress span{display:block;height:100%;width:38%;background:var(--gold)}
+
+/* GRID / CARDS */
+.grid{
+display:grid;
+grid-template-columns:repeat(5,minmax(0,1fr));
+gap:22px;
+margin-top:35px;
+align-items:start;
+transition:opacity .3s ease;
+}
+.grid.fading{
+opacity:0;
+}
+
+/* SEASON TABS */
+.season-tabs{
+display:flex;
+flex-wrap:wrap;
+gap:14px;
+margin-top:10px;
+}
+.season-pill{
+padding:12px 28px;
+border-radius:999px;
+background:rgba(255,255,255,.06);
+border:1px solid var(--panel-edge);
+color:#fff;
+font-weight:700;
+font-size:14px;
+letter-spacing:.3px;
+cursor:pointer;
+transition:.3s;
+backdrop-filter:blur(10px);
+}
+.season-pill:hover{
+background:rgba(255,255,255,.12);
+border-color:rgba(250,204,21,.4);
+}
+.season-pill.active{
+background:var(--gold);
+color:#15110a;
+border-color:var(--gold);
+box-shadow:0 8px 24px rgba(250,204,21,.3);
+}
+.card{
+position:relative;
+background:rgba(10,10,10,.85);
+backdrop-filter:blur(10px);
+border-radius:22px;
+overflow:hidden;
+height:100%;
+border:1px solid rgba(250,204,21,.12);
+transition:.4s;
+cursor:pointer;
+}
+.card:hover{
+transform:
+translateY(-12px)
+scale(1.04)
+rotateX(2deg);
+
+border-color:var(--gold);
+
+box-shadow:
+0 0 30px rgba(250,204,21,.25),
+0 0 80px rgba(250,204,21,.10);
+}
+.card:hover .thumb-overlay{opacity:1}
+.mini-play{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;margin-bottom:16px;transform:scale(.8);transition:.3s}
+.card:hover .mini-play{transform:scale(1)}
+.mini-play svg{width:15px;height:15px;fill:#15110a;margin-left:2px}
+.thumb{
+height:255px;
+overflow:hidden;
+position:relative;
+}
+
+.thumb img{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+transition:.5s;
+}
+
+.card:hover .thumb img{
+transform:scale(1.05);
+}
+.card-body{padding:18px 20px 20px}
+.ep{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:1.5px}
+.locked{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);padding:5px 10px;border-radius:7px;font-size:11px;font-weight:700;letter-spacing:1px;color:#cfcfd6;border:1px solid rgba(255,255,255,.12)}
+h3{margin:6px 0 4px;font:700 17px "Plus Jakarta Sans",sans-serif}
+.card-body p{color:var(--muted);font-size:13.5px}
+
+/* TAG MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--panel-edge);border-bottom:1px solid var(--panel-edge);padding:22px 0;margin:20px 0 0;background:rgba(255,255,255,.02)}
+.marquee{display:flex;width:max-content;animation:scroll 28s linear infinite;gap:60px}
+.marquee span{font:800 22px Syne,sans-serif;color:rgba(255,255,255,.18);letter-spacing:1px;white-space:nowrap}
+.marquee span.gold{color:var(--gold)}
+@keyframes scroll{
+from{transform:translateX(0)}
+to{transform:translateX(-50%)}
+}
+
+/* VIDEO POPUP */
+
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.95);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.popup.active{
+display:flex;
+}
+
+.popup video{
+cursor:pointer;
+height:90vh;
+width:auto;
+max-width:95vw;
+object-fit:contain;
+border-radius:20px;
+background:#000;
+}
+
+.custom-play{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:90px;
+height:90px;
+border-radius:50%;
+background:rgba(250,204,21,.95);
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:38px;
+color:#000;
+cursor:pointer;
+z-index:999999;
+box-shadow:0 0 30px rgba(250,204,21,.6);
+transition:.3s;
+}
+
+.custom-play:hover{
+transform:translate(-50%,-50%) scale(1.1);
+}
+
+.custom-play.hide{
+opacity:0;
+pointer-events:none;
+}
+
+.custom-play.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.close-popup{
+position:absolute;
+top:30px;
+right:30px;
+width:60px;
+height:60px;
+background:#facc15;
+color:#000;
+font-size:30px;
+font-weight:800;
+border-radius:50%;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.35s ease;
+box-shadow:0 0 20px rgba(250,204,21,.4);
+}
+
+.close-popup:hover{
+transform:scale(1.15) rotate(90deg);
+box-shadow:
+0 0 25px #facc15,
+0 0 60px rgba(250,204,21,.8),
+0 0 100px rgba(250,204,21,1);
+}
+
+footer{
+padding:60px 6%;
+text-align:center;
+color:var(--muted);
+font-size:13px;
+border-top:1px solid var(--panel-edge);
+margin-top:40px;
+}
+footer .logo{display:inline-block;margin-bottom:10px}
+
+@media(max-width:880px){
+  .featured{grid-template-columns:1fr}
+  .featured-media{min-height:300px}
+  .section-head{flex-direction:column;align-items:flex-start}
+  .subtext{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="logo">MOCHI<span>VERSE</span></div>
+  <div class="navlinks">
+    <a href="#">Home</a>
+    <a href="#episodes">Episodes</a>
+    <a href="#episodes">About the story</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-media"></div>
+
+  <div class="hero-content">
+    <div class="eyebrow">Now Streaming · Episodes</div>
+    <h1>
+MOCHI
+<br>
+<span class="accent">UNIVERSE</span>
+</h1>
+    <p>
+Every star has a story.
+
+Join Mochi and Zupi as they explore magical worlds, discover hidden secrets, meet unforgettable friends, and create endless adventures across the Mochiverse.
+</p>
+    <div class="hero-meta">
+      <span class="badge">∞ Infinite Stories</span>
+      <span class="badge">✨ Daily Episodes</span>
+      <span class="badge">🌠 Since 2026</span>
+    </div>
+    <div class="cta-row">
+
+  <button
+    class="btn btn-primary"
+    type="button"
+    onclick="openVideo('https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782540156/Introduction_zbczob.mp4')">
+
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#15110a">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+
+    Watch Now
+
+  </button>
+
+  <a class="btn btn-ghost" href="#episodes">
+    Browse Episodes
+  </a>
+
+</div>
+
+</div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>MOCHI</span><span class="gold">×</span><span>ZUPI</span><span>ORIGINAL SERIES</span><span class="gold">×</span><span>STREAMING NOW</span><span>ANIMATED STORYTELLING</span><span class="gold">×</span>
+    <span>MOCHI</span><span class="gold">×</span><span>ZUPI</span><span>ORIGINAL SERIES</span><span class="gold">×</span><span>STREAMING NOW</span><span>ANIMATED STORYTELLING</span><span class="gold">×</span>
+  </div>
+</div>
+
+<section class="section">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Up Next</div>
+      <div class="title">Featured Episode</div>
+    </div>
+
+  </div>
+  <div class="featured">
+    <div class="featured-media">
+  <img src="https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782827067/Bnner_gqj6pq.png">
+      <div class="play-orb"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+    </div>
+    <div class="info">
+      <div class="ep-tag">Episodes</div>
+      <h2>The Long Way Home</h2>
+      <p>Mochi and Zupi continue their adventure, chasing one more sunset before the journey turns toward home.</p>
+      <div class="progress"><span></span></div>
+      <a class="btn btn-primary" style="width:fit-content">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#15110a"><path d="M8 5v14l11-7z"/></svg>
+        Resume Episode
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="episodes">
+  <div class="section-head">
+    <div>
+      <div class="kicker">Mochi_Universe</div>
+      <div class="title">All Episodes</div>
+    </div>
+
+  </div>
+
+  <div class="season-tabs" id="seasonTabs">
+    <button class="season-pill active" data-season="season1" onclick="switchSeason('season1',this)">Season 1</button>
+    <button class="season-pill" data-season="season2" onclick="switchSeason('season2',this)">Season 2</button>
+    <button class="season-pill" data-season="season3" onclick="switchSeason('season3',this)">Season 3</button>
+    <button class="season-pill" data-season="season4" onclick="switchSeason('season4',this)">Season 4</button>
+    <button class="season-pill" data-season="season5" onclick="switchSeason('season5',this)">Season 5</button>
+  </div>
+
+  <div class="grid" id="episodesGrid">
+  </div>
+</section>
+<script>
+
+/* ============================================
+   SEASON DATA
+   Replace thumb / video / title / desc for any
+   episode below. "locked:true" shows the SOON
+   badge instead of a playable thumbnail.
+   ============================================ */
+
+const seasons = {
+
+season1: [
+{num:"01",title:"Episode 01",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782855867/Thumbnail_01_pbt1tx.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782540155/Episode_01_gpwyi1.mp4",locked:false},
+{num:"02",title:"Episode 02",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782855876/Thumbnail_02_bezpkp.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782540178/Episode_02_zdmgvn.mp4",locked:false},
+{num:"03",title:"Episode 03",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782855884/Thumbnail_03_fznkfm.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782841468/Episode_03_fpd8t8.mp4",locked:false},
+{num:"04",title:"Episode 04",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782855893/Cover_image_kq0xav.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782841470/Episode_04_wpk56h.mp4",locked:false},
+{num:"05",title:"Episode 05",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782766251/Episode_05_Cover_qcmblp.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782841500/Episode_05_ro1qln.mp4",locked:false},
+{num:"06",title:"Episode 06",desc:"Watch now.",thumb:"https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782766264/Episode_06_Cover_wtxprm.png",video:"https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782841509/Episode_06_x1veq0.mp4",locked:false},
+{num:"07",title:"Episode 07",desc:"Coming soon.",thumb:"YOUR_EPISODE07_THUMBNAIL_URL",video:"",locked:true},
+{num:"08",title:"Episode 08",desc:"Coming soon.",thumb:"YOUR_EPISODE08_THUMBNAIL_URL",video:"",locked:true},
+{num:"09",title:"Episode 09",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"10",title:"Episode 10",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"11",title:"Episode 11",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"12",title:"Episode 12",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"13",title:"Episode 13",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"14",title:"Episode 14",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"15",title:"Episode 15",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"16",title:"Episode 16",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"17",title:"Episode 17",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"18",title:"Episode 18",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"19",title:"Episode 19",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"20",title:"Episode 20",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"21",title:"Episode 21",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"22",title:"Episode 22",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"23",title:"Episode 23",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"24",title:"Episode 24",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"25",title:"Episode 25",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"26",title:"Episode 26",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"27",title:"Episode 27",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"28",title:"Episode 28",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"29",title:"Episode 29",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"30",title:"Episode 30",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"31",title:"Episode 31",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"32",title:"Episode 32",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"33",title:"Episode 33",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"34",title:"Episode 34",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"35",title:"Episode 35",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"36",title:"Episode 36",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"37",title:"Episode 37",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"38",title:"Episode 38",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"39",title:"Episode 39",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"40",title:"Episode 40",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"41",title:"Episode 41",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"42",title:"Episode 42",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"43",title:"Episode 43",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"44",title:"Episode 44",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"45",title:"Episode 45",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"46",title:"Episode 46",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"47",title:"Episode 47",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"48",title:"Episode 48",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"49",title:"Episode 49",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"50",title:"Episode 50",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true}
+],
+
+season2: [
+{num:"51",title:"Episode 51",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"52",title:"Episode 52",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"53",title:"Episode 53",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"54",title:"Episode 54",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"55",title:"Episode 55",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"56",title:"Episode 56",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"57",title:"Episode 57",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"58",title:"Episode 58",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"59",title:"Episode 59",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"60",title:"Episode 60",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"61",title:"Episode 61",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"62",title:"Episode 62",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"63",title:"Episode 63",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"64",title:"Episode 64",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"65",title:"Episode 65",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"66",title:"Episode 66",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"67",title:"Episode 67",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"68",title:"Episode 68",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"69",title:"Episode 69",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"70",title:"Episode 70",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"71",title:"Episode 71",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"72",title:"Episode 72",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"73",title:"Episode 73",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"74",title:"Episode 74",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"75",title:"Episode 75",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"76",title:"Episode 76",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"77",title:"Episode 77",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"78",title:"Episode 78",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"79",title:"Episode 79",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"80",title:"Episode 80",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"81",title:"Episode 81",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"82",title:"Episode 82",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"83",title:"Episode 83",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"84",title:"Episode 84",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"85",title:"Episode 85",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"86",title:"Episode 86",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"87",title:"Episode 87",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"88",title:"Episode 88",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"89",title:"Episode 89",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"90",title:"Episode 90",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"91",title:"Episode 91",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"92",title:"Episode 92",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"93",title:"Episode 93",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"94",title:"Episode 94",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"95",title:"Episode 95",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"96",title:"Episode 96",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"97",title:"Episode 97",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"98",title:"Episode 98",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"99",title:"Episode 99",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"100",title:"Episode 100",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true}
+],
+
+season3: [
+{num:"101",title:"Episode 101",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"102",title:"Episode 102",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"103",title:"Episode 103",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"104",title:"Episode 104",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"105",title:"Episode 105",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"106",title:"Episode 106",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"107",title:"Episode 107",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"108",title:"Episode 108",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"109",title:"Episode 109",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"110",title:"Episode 110",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"111",title:"Episode 111",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"112",title:"Episode 112",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"113",title:"Episode 113",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"114",title:"Episode 114",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"115",title:"Episode 115",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"116",title:"Episode 116",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"117",title:"Episode 117",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"118",title:"Episode 118",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"119",title:"Episode 119",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"120",title:"Episode 120",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"121",title:"Episode 121",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"122",title:"Episode 122",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"123",title:"Episode 123",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"124",title:"Episode 124",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"125",title:"Episode 125",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"126",title:"Episode 126",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"127",title:"Episode 127",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"128",title:"Episode 128",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"129",title:"Episode 129",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"130",title:"Episode 130",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"131",title:"Episode 131",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"132",title:"Episode 132",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"133",title:"Episode 133",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"134",title:"Episode 134",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"135",title:"Episode 135",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"136",title:"Episode 136",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"137",title:"Episode 137",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"138",title:"Episode 138",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"139",title:"Episode 139",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"140",title:"Episode 140",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"141",title:"Episode 141",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"142",title:"Episode 142",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"143",title:"Episode 143",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"144",title:"Episode 144",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"145",title:"Episode 145",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"146",title:"Episode 146",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"147",title:"Episode 147",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"148",title:"Episode 148",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"149",title:"Episode 149",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"150",title:"Episode 150",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true}
+],
+
+season4: [
+{num:"151",title:"Episode 151",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"152",title:"Episode 152",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"153",title:"Episode 153",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"154",title:"Episode 154",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"155",title:"Episode 155",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"156",title:"Episode 156",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"157",title:"Episode 157",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"158",title:"Episode 158",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"159",title:"Episode 159",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"160",title:"Episode 160",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"161",title:"Episode 161",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"162",title:"Episode 162",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"163",title:"Episode 163",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"164",title:"Episode 164",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"165",title:"Episode 165",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"166",title:"Episode 166",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"167",title:"Episode 167",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"168",title:"Episode 168",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"169",title:"Episode 169",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"170",title:"Episode 170",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"171",title:"Episode 171",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"172",title:"Episode 172",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"173",title:"Episode 173",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"174",title:"Episode 174",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"175",title:"Episode 175",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"176",title:"Episode 176",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"177",title:"Episode 177",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"178",title:"Episode 178",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"179",title:"Episode 179",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"180",title:"Episode 180",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"181",title:"Episode 181",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"182",title:"Episode 182",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"183",title:"Episode 183",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"184",title:"Episode 184",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"185",title:"Episode 185",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"186",title:"Episode 186",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"187",title:"Episode 187",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"188",title:"Episode 188",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"189",title:"Episode 189",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"190",title:"Episode 190",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"191",title:"Episode 191",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"192",title:"Episode 192",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"193",title:"Episode 193",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"194",title:"Episode 194",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"195",title:"Episode 195",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"196",title:"Episode 196",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"197",title:"Episode 197",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"198",title:"Episode 198",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"199",title:"Episode 199",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"200",title:"Episode 200",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true}
+],
+
+season5: [
+{num:"201",title:"Episode 201",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"202",title:"Episode 202",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"203",title:"Episode 203",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"204",title:"Episode 204",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"205",title:"Episode 205",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"206",title:"Episode 206",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"207",title:"Episode 207",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"208",title:"Episode 208",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"209",title:"Episode 209",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"210",title:"Episode 210",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"211",title:"Episode 211",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"212",title:"Episode 212",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"213",title:"Episode 213",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"214",title:"Episode 214",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"215",title:"Episode 215",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"216",title:"Episode 216",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"217",title:"Episode 217",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"218",title:"Episode 218",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"219",title:"Episode 219",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"220",title:"Episode 220",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"221",title:"Episode 221",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"222",title:"Episode 222",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"223",title:"Episode 223",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"224",title:"Episode 224",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"225",title:"Episode 225",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"226",title:"Episode 226",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"227",title:"Episode 227",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"228",title:"Episode 228",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"229",title:"Episode 229",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"230",title:"Episode 230",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"231",title:"Episode 231",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"232",title:"Episode 232",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"233",title:"Episode 233",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"234",title:"Episode 234",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"235",title:"Episode 235",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"236",title:"Episode 236",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"237",title:"Episode 237",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"238",title:"Episode 238",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"239",title:"Episode 239",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"240",title:"Episode 240",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"241",title:"Episode 241",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"242",title:"Episode 242",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"243",title:"Episode 243",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"244",title:"Episode 244",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"245",title:"Episode 245",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"246",title:"Episode 246",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"247",title:"Episode 247",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"248",title:"Episode 248",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"249",title:"Episode 249",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true},
+{num:"250",title:"Episode 250",desc:"Coming soon.",thumb:"https://placehold.co/1280x720/141414/FACC15?text=Coming+Soon",video:"",locked:true}
+]
+
+};
+
+const introCardHTML = `
+<div class="card" onclick="openVideo('https://res.cloudinary.com/dqa7cpqmy/video/upload/v1782540156/Introduction_zbczob.mp4')">
+    <div class="thumb">
+        <img src="https://res.cloudinary.com/dqa7cpqmy/image/upload/v1782855861/Thumbnail_Intro_wcbxp9.png">
+        <div class="thumb-overlay">
+            <div class="mini-play">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="ep">INTRODUCTION</div>
+        <h3>Introduction</h3>
+        <p>Watch now.</p>
+    </div>
+</div>
+`;
+
+function episodeCardHTML(item){
+
+if(item.locked){
+
+return `
+<div class="card">
+    <div class="thumb">
+        <img src="${item.thumb}">
+        <div class="locked">SOON</div>
+    </div>
+
+    <div class="card-body">
+        <div class="ep">EPISODE ${item.num}</div>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+    </div>
+</div>
+`;
+
+}
+
+return `
+<div class="card" onclick="openVideo('${item.video}')">
+    <div class="thumb">
+        <img src="${item.thumb}">
+        <div class="thumb-overlay">
+            <div class="mini-play">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="ep">EPISODE ${item.num}</div>
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+    </div>
+</div>
+`;
+
+}
+
+function loadSeason(seasonKey, animate){
+
+const grid = document.getElementById("episodesGrid");
+
+const renderNow = () => {
+
+let html = introCardHTML;
+
+seasons[seasonKey].forEach(item => {
+html += episodeCardHTML(item);
+});
+
+grid.innerHTML = html;
+
+grid.classList.remove("fading");
+
+};
+
+if(animate){
+
+grid.classList.add("fading");
+
+setTimeout(renderNow, 300);
+
+}else{
+
+renderNow();
+
+}
+
+}
+
+function switchSeason(seasonKey, btn){
+
+document.querySelectorAll(".season-pill").forEach(p => p.classList.remove("active"));
+
+btn.classList.add("active");
+
+loadSeason(seasonKey, true);
+
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+
+loadSeason("season1", false);
+
+});
+
+</script>
+
+<!-- VIDEO PLAYER POPUP -->
+<div class="popup" id="popup">
+
+    <div class="custom-play show"
+         id="customPlay"
+         onclick="togglePlay()">
+        ▶
+    </div>
+
+    <div class="close-popup"
+         onclick="closeVideo()">
+        ×
+    </div>
+
+    <video
+        id="popupVideo"
+        playsinline
+        controls
+        controlsList="nodownload"
+        preload="metadata">
+    </video>
+
+</div>
+
+<script>
+
+function openVideo(videoSrc){
+
+const popup=document.getElementById("popup");
+const video=document.getElementById("popupVideo");
+const btn=document.getElementById("customPlay");
+
+popup.classList.add("active");
+
+video.src=videoSrc;
+
+video.load();
+
+video.play();
+
+btn.classList.add("hide");
+btn.classList.remove("show");
+
+}
+
+function closeVideo(){
+
+const popup=document.getElementById("popup");
+const video=document.getElementById("popupVideo");
+const btn=document.getElementById("customPlay");
+
+popup.classList.remove("active");
+
+video.pause();
+
+video.currentTime=0;
+
+video.src="";
+
+btn.classList.remove("show");
+btn.classList.add("hide");
+
+}
+
+function togglePlay(){
+
+const video=document.getElementById("popupVideo");
+const btn=document.getElementById("customPlay");
+
+if(video.paused){
+
+video.play();
+
+btn.classList.add("hide");
+btn.classList.remove("show");
+
+}else{
+
+video.pause();
+
+btn.classList.remove("hide");
+btn.classList.add("show");
+
+}
+
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+const video=document.getElementById("popupVideo");
+const btn=document.getElementById("customPlay");
+
+video.addEventListener("pause",()=>{
+
+btn.classList.remove("hide");
+btn.classList.add("show");
+
+});
+
+video.addEventListener("play",()=>{
+
+btn.classList.add("hide");
+btn.classList.remove("show");
+
+});
+
+video.addEventListener("ended",()=>{
+
+btn.classList.remove("hide");
+btn.classList.add("show");
+
+});
+
+});
+
+</script>
+<footer>
+  <div class="logo">MOCHI<span style="color:var(--gold)">VERSE</span></div>
+  <div>An original animated series · Crafted frame by frame</div>
+</footer>
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 30);
+});
+</script>
+
+</body>
+</html>
